@@ -2,22 +2,44 @@
 
 #include <random>
 
+#include <string.h>
+
 using namespace std;
 
-int PHP,PMHP,PEXP,PL,PEXPL,MHP,MMHP,ML;
+long long int PHP,PMHP,PEXP,PL,PEXPL,MHP,MMHP,ML;
 
-int PATK,PDEF,MATK,MDEF,PXP;
+long long int gold, cost;
+
+long long int PATK,PDEF,MATK,MDEF,PXP;
 
 char CHOICE;
+
+int Upgrade ()
+{
+    cout << "How much gold will you spend? ";
+    cin >> cost;
+    if (gold >= cost)
+    {
+        gold -= cost;
+        PATK += cost / 2;
+        PDEF += cost / 2;
+    } else
+    {
+        PATK += gold / 2;
+        PDEF += gold / 2;
+        gold = 0;
+    }
+    return 0;
+}
 
 int Display ()
 {
     cout << "Player Level: " << PL << endl;
     cout << '[';
     int i;
-    for (i=0;i<20;i++)
+    for (i=0;i<50;i++)
     {
-        if (PHP > (PMHP * i) / 20)
+        if (PHP > (PMHP * i) / 50)
         {
             cout << '|';
         } else
@@ -27,9 +49,9 @@ int Display ()
     }
     cout << ']' << PHP << '/' << PMHP << endl;
     cout << '[';
-    for (i = 0; i < 10; i++)
+    for (i = 0; i < 30; i++)
     {
-        if (PEXP > (PEXPL * i) / 10)
+        if (PEXP > (PEXPL * i) / 30)
         {
             cout << '|';
         } else
@@ -38,12 +60,12 @@ int Display ()
         }
     }
     cout << ']' << PEXP << '/' << PEXPL << endl;
-    cout << endl;
+    cout << "Gold: " << gold <<endl;
     cout << "Monster Level: " << ML << endl;
     cout << '[';
-    for (i = 0; i < 20; i++)
+    for (i = 0; i < 50; i++)
     {
-        if (MHP > (MMHP * i) / 20)
+        if (MHP > (MMHP * i) / 50)
         {
             cout << '|';
         } else
@@ -72,7 +94,8 @@ int Attack ()
         cout << "Killed a monster. Gained " << int(ML * ML) << " experience points." << endl;
         PEXP += int(ML * ML);
         PXP += int(ML * ML);
-        if (PEXP > PEXPL)
+        gold += 5 * ML;
+        while (PEXP > PEXPL)
         {            
             PEXP -= PEXPL;
             int inc = PL * 20 + 50;
@@ -126,11 +149,11 @@ int main ()
     MATK = 30;
     MDEF = 15;
     
-    cout << " Monster Fighter Text. \n Version 0.1 \n Author: CTSD0xF \n";
+    cout << " Monster Fighter Text. \n Version 0.2 \n Author: CTSD0xF \n";
     
     while (PHP > 0 && CHOICE != 'q')
     {
-        cout << "Please select \"a\" for attack, \"h\" for heal, \"v\" for view, or \"q\" for quit." << endl;
+        cout << "Please select \"a\" for attack, \"h\" for heal, \"u\" to upgrade your character,\n\"v\" for view, or \"q\" for quit." << endl;
         cin >> CHOICE;
         int i;
         for (i=0;i<20;i++)
@@ -146,12 +169,41 @@ int main ()
         } else if (CHOICE == 'h')
         {
             Heal();
+        } else if (CHOICE == 'u')
+        {
+            Upgrade ();
+            Display ();
+        } else if (CHOICE == 'd')
+        {
+            string debug_text;
+            cin >> debug_text;
+            if (debug_text == "exp")
+            {
+                long long int exp_boost;
+                cin >> exp_boost;
+                PEXP += exp_boost;
+            }
+            if (debug_text == "stat")
+            {
+                cout << "PATK: " << PATK << endl;
+                cout << "PDEF: " << PDEF << endl;
+                cout << "MHP: " << MHP << endl;
+                cout << "MMHP: " << MMHP << endl;
+                cout << "MATK: " << MATK << endl;
+                cout << "MDEF: " << MDEF << endl;
+            }
+            if (debug_text == "gold")
+            {
+                long long int gold_boost;
+                cin >> gold_boost;
+                gold += gold_boost;
+            }
         } else
         {
             cout << "not a valid option." << endl;
         }
     }
-    cout << " Well Played. \n You achieved " << PXP << " Points!\nNow just input a character to leave";
+    cout << " Well Played. \n You achieved " << PXP + 0.1 * gold << " Points!\nNow just input a character to leave" << endl;
     cin >> CHOICE;
     return 0;
 }
