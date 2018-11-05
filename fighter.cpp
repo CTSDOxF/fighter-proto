@@ -108,7 +108,7 @@ int Attack ()
             cout << "Well done. You have advanced to level " << PL << endl;
         }
         MMHP += 10 * PL;
-        MHP += MMHP;
+        MHP = MMHP;
         ML = int(MMHP / 200) + 1;
         MATK = 20 + 10 * ML;
         MDEF = 10 + 5 * ML;        
@@ -149,7 +149,7 @@ int main ()
     MATK = 30;
     MDEF = 15;
     
-    cout << " Monster Fighter Text. \n Version 0.2 \n Author: CTSD0xF \n";
+    cout << " Monster Fighter Text. \n Version 0.3 \n Author: CTSD0xF \n";
     
     while (PHP > 0 && CHOICE != 'q')
     {
