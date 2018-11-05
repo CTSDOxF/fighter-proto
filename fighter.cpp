@@ -198,6 +198,41 @@ int main ()
                 cin >> gold_boost;
                 gold += gold_boost;
             }
+            if (debug_text == "mod stat")
+            {
+                cin >> debug_text;
+                long long int buff;
+                if (debug_text == "PATK")
+                {
+                    cin >> buff;
+                    PATK += buff;
+                }
+                if (debug_text == "PDEF")
+                {
+                    cin >> buff;
+                    PDEF += buff;
+                }
+                if (debug_text == "MHP")
+                {
+                    cin >> buff;
+                    MHP += buff;
+                }
+                if (debug_text == "MMHP")
+                {
+                    cin >> buff;
+                    MMHP += buff;
+                }
+                if (debug_text == "MATK")
+                {
+                    cin >> buff;
+                    MATK += buff;
+                }
+                if (debug_text == "MDEF")
+                {
+                    cin >> buff;
+                    MDEF += buff;
+                }
+            }
         } else
         {
             cout << "not a valid option." << endl;
